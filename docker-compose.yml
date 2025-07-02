@@ -33,7 +33,7 @@ services:
     environment:
       # Application environment variables for database connection
       DB_HOST: db # Hostname of the database service (matches the service name)
-      DB_PORT: 5432 # Default PostgreSQL port
+      DB_PORT: 3306 # Default PostgreSQL port
       DB_NAME: itsmng # Database name (must match POSTGRES_DB)
       DB_USER: itsmng # Database user (must match POSTGRES_USER)
       DB_PASSWORD: itsmng_password # Database password (must match POSTGRES_PASSWORD)
