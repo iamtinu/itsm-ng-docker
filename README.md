@@ -8,7 +8,7 @@ How to use this docker-compose.yml file:
 3) Start the services: Run the command docker-compose up -d
 -d runs the containers in detached mode (in the background).
 
-Access ITSM-NG: Once the containers are up and running, you can access ITSM-NG in your web browser at http://localhost:8080.
+Access ITSM-NG: Once the containers are up and running, you can access ITSM-NG in your web browser at http://localhost:1380.
 
 Important Notes:
 
