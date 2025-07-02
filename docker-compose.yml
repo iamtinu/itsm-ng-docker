@@ -1,0 +1,58 @@
+# docker-compose.yml
+# This file defines the services for ITSM-NG and its PostgreSQL database.
+# It's based on the official ITSM-NG Docker installation guide.
+
+version: '3.8' # Specify the Docker Compose file format version.
+
+services:
+  # Service for the PostgreSQL database
+  db:
+    image: postgres:13-alpine # Use a lightweight PostgreSQL 13 image
+    container_name: itsm-ng-db # Assign a consistent container name
+    restart: always # Always restart the container if it stops
+    environment:
+      # Database environment variables for PostgreSQL
+      POSTGRES_DB: itsmng # Database name
+      POSTGRES_USER: itsmng # Database user
+      POSTGRES_PASSWORD: itsmng_password # Database password (change this in production!)
+    volumes:
+      # Persistent volume for database data
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - itsm-ng-network # Connect to the custom network
+
+  # Service for the ITSM-NG application
+  itsm-ng:
+    image: itsmng/itsm-ng:latest # Use the latest ITSM-NG image
+    container_name: itsm-ng-app # Assign a consistent container name
+    restart: always # Always restart the container if it stops
+    ports:
+      # Map container port 80 to host port 8080
+      # You can change 8080 to any available port on your host machine
+      - "8080:80"
+    environment:
+      # Application environment variables for database connection
+      DB_HOST: db # Hostname of the database service (matches the service name)
+      DB_PORT: 5432 # Default PostgreSQL port
+      DB_NAME: itsmng # Database name (must match POSTGRES_DB)
+      DB_USER: itsmng # Database user (must match POSTGRES_USER)
+      DB_PASSWORD: itsmng_password # Database password (must match POSTGRES_PASSWORD)
+      # Optional: Set the application environment (e.g., 'prod' for production)
+      # APP_ENV: prod
+    volumes:
+      # Persistent volume for ITSM-NG application data (e.g., configurations, uploads)
+      - app_data:/var/www/html/itsm-ng/files
+    depends_on:
+      - db # Ensure the database service starts before the application
+    networks:
+      - itsm-ng-network # Connect to the custom network
+
+# Define named volumes for persistent data
+volumes:
+  db_data: # Volume for PostgreSQL data
+  app_data: # Volume for ITSM-NG application data
+
+# Define a custom bridge network for inter-service communication
+networks:
+  itsm-ng-network:
+    driver: bridge # Use the default bridge driver
