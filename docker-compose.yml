@@ -27,9 +27,9 @@ services:
     container_name: itsm-ng-app # Assign a consistent container name
     restart: always # Always restart the container if it stops
     ports:
-      # Map container port 80 to host port 8080
-      # You can change 8080 to any available port on your host machine
-      - "8080:80"
+      # Map container port 80 to host port 1380
+      # You can change 1380 to any available port on your host machine
+      - "1380:80"
     environment:
       # Application environment variables for database connection
       DB_HOST: db # Hostname of the database service (matches the service name)
